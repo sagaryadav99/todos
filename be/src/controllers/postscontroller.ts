@@ -34,32 +34,41 @@ export async function createPost(req: Request, res: Response) {
 export async function updatePost(req: Request, res: Response) {
   const { postid } = req.params;
   const userid = req.userid;
-  const { title, description, completed } = req.body;
+
+  const { title, description } = req.body;
+
   try {
-    if (!postid) {
-      throw new Error("postid required");
+    const post = await prisma.post.findFirst({
+      where: {
+        id: postid as string,
+        authorId: userid,
+        isDeleted: false,
+      },
+    });
+
+    if (!post) {
+      return res.status(404).json({
+        message: "Post not found",
+      });
     }
-    const post = await prisma.post.upsert({
+
+    const updatedPost = await prisma.post.update({
       where: {
         id: postid as string,
       },
-      update: {
-        title: title,
-        description: description,
-        completed: completed,
-      },
-      create: {
+      data: {
         title,
         description,
-        completed,
-        isDeleted: false,
-        authorId: userid,
       },
     });
-    return res.json(post);
+
+    return res.json(updatedPost);
   } catch (e) {
     console.log(e);
-    return res.json({ message: "update not completed" });
+
+    return res.status(500).json({
+      message: "Update not completed",
+    });
   }
 }
 export async function toggleStatus(req: Request, res: Response) {
@@ -98,6 +107,6 @@ export async function deletePost(req: Request, res: Response) {
     res.json({ message: "deleted successfully" });
   } catch (e) {
     console.log(e);
-    res.json({ message: "some error occured" });
+    res.status(401).json({ message: "some error occured" });
   }
 }

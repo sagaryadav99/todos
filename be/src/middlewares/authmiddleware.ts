@@ -12,7 +12,7 @@ export async function authmiddleware(
     if (!token) {
       throw new Error("no token provided,signin first");
     }
-    const userid = jwt.verify(token, jwtsecret as string);
+    const userid = jwt.verify(token as string, jwtsecret as string);
     if (!userid) {
       throw new Error("malformed jwt");
     }
@@ -20,6 +20,6 @@ export async function authmiddleware(
     next();
   } catch (e) {
     console.log(e);
-    res.json({ message: "signin first" });
+    res.status(401).json({ message: "signin first" });
   }
 }

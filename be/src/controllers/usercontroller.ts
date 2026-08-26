@@ -45,6 +45,6 @@ export async function loginUser(req: Request, res: Response) {
     }
     throw new Error("password doesn't match");
   } catch (e) {
-    return res.json({ message: "password doesn't match" });
+    return res.status(401).json({ message: "password doesn't match" });
   }
 }
