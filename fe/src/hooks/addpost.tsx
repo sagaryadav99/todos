@@ -25,7 +25,7 @@ export function useAddPost() {
       return res.data.post;
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(["posts"], (oldPosts) => {
+      queryClient.setQueryData(["posts"], (oldPosts: any[]) => {
         return [...oldPosts, data];
       });
     },

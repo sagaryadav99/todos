@@ -78,7 +78,7 @@ export function Dashboard() {
       </div>
 
       <div className="todo-list">
-        {data.map((x) => {
+        {data.map((x: any) => {
           const isEditing = editingId === x.id;
 
           return (

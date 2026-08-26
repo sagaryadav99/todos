@@ -6,14 +6,14 @@ export function useDeletePost() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
-      const res = await axios.delete(`${API_URL}/post/${id}`, {
+      await axios.delete(`${API_URL}/post/${id}`, {
         headers: { Authorization: token, "Content-type": "application/json" },
       });
       return id;
     },
     onSuccess: (id) => {
       queryClient.setQueryData(["posts"], (oldPosts: any) => {
-        return oldPosts.filter((x) => x.id != id);
+        return oldPosts.filter((x: any) => x.id != id);
       });
     },
   });
