@@ -1,5 +1,5 @@
 import express from "express";
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 const app = express();
 import cors from "cors";
 import { userRouter } from "./routes/userrouter";
@@ -8,6 +8,6 @@ app.use(express.json());
 app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use("/user", userRouter);
 app.use("/post", postrouter);
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`server running on ${PORT}`);
 });
