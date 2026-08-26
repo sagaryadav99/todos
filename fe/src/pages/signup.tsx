@@ -8,13 +8,13 @@ export function SignUp() {
   const passwordref = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<String | null>(null);
   const navigate = useNavigate();
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const mutation = useMutation({
     mutationFn: async () => {
       if (!usernameref.current?.value || !passwordref.current?.value) {
         throw new Error("username or password can't be empty");
       }
-      await axios.post("http://localhost:3000/user/signup", {
+      await axios.post(`${API_URL}/user/signup`, {
         username: usernameref.current.value,
         password: passwordref.current.value,
       });

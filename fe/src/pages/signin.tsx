@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export function SignIn() {
   const usernameref = useRef<HTMLInputElement>(null);
   const passwordref = useRef<HTMLInputElement>(null);
@@ -15,7 +15,7 @@ export function SignIn() {
         throw new Error("username or password can't be empty");
       }
 
-      const res = await axios.post("http://localhost:3000/user/signin", {
+      const res = await axios.post(`${API_URL}/user/signin`, {
         username: usernameref.current.value,
         password: passwordref.current.value,
       });
